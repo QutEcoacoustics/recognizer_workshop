@@ -1,0 +1,15 @@
+*DS_Store
+.ipynb_checkpoints
+__pycache__
+__pycache__/
+
+
+# we don't want the outputs to be included
+preparation/*
+
+training/model.pth
+
+data.csv
+data_large.csv
+data_training.csv
+log_train.txt

@@ -1,0 +1,7 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Label
+1	Waveform 1	1	1.975158916	3.668152272	373.100	6279.800	whipbird
+1	Spectrogram 1	1	1.975158916	3.668152272	373.100	6279.800	whipbird
+2	Waveform 1	1	11.201972708	12.979615732	559.600	5968.900	whipbird
+2	Spectrogram 1	1	11.201972708	12.979615732	559.600	5968.900	whipbird
+3	Waveform 1	1	26.495346026	28.272989050	497.400	7088.100	whipbird
+3	Spectrogram 1	1	26.495346026	28.272989050	497.400	7088.100	whipbird
