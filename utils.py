@@ -73,7 +73,9 @@ def read_spec_params(file_name: str):
         params["maxFreq"] = int(config["spec"]["max-freq"])
         params["timeWin"] = float(config["spec"]["time-win"])
         params["fftWinSize"] = int(config["spec"]["fft-win-size"])
-        params["fftOverlap"] = float(config["spec"]["fft-overlap"])
+
+        # Keep this fixed for the moment        
+        params["fftOverlap"] = 0.5
         
         return params
     else:

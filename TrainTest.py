@@ -1,4 +1,5 @@
 
+import os
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
@@ -20,7 +21,9 @@ test_counter = []
 
 
 def test_network(net, test_loader, log):
-
+    """
+    Loop over test set and accumulate statistics of correct predictions
+    """
 
     # Make sure that the network is in eval mode
     net.eval()
@@ -39,7 +42,7 @@ def test_network(net, test_loader, log):
             test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             
-            # 
+            # Record the number of correct predictions
             corr = pred.eq(target.view_as(pred))
             for i, x in enumerate(corr):
                 idx = item_count + i
@@ -59,14 +62,21 @@ def test_network(net, test_loader, log):
 
     print(message_str)
 
-    # Log file
-    log.write("\nTest results: \n\n")
-    item_list = test_loader.dataset.get_item_list()
-    for i, item in enumerate(item_list):
-        log.write( str(item_list[i]) + "   " + str(correct_items[i]) + "\n")
-
+    # Log file    
     log.write("\n" + message_str)
-    log.write("\n\n--------------------------\n\n")
+
+    item_list = test_loader.dataset.get_item_list()
+
+    log.write( "\nCORRECT " +  str(correct_count) + "\n\n")
+
+    # Write out incorrect results
+    log.write( "INCORRECT " +  str(len(test_loader.dataset) - correct_count) + "\n\n")
+    for i, item in enumerate(item_list):
+        log_str = ""
+        if correct_items[i] == 0:
+            log_str = "INCORRECT"
+            log.write( str(item_list[i]) + "\n")
+
 
     
 def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
@@ -74,11 +84,15 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
     Train the netowrk with the data from train_loader
     '''
     
+    log.write("\n\n---------------")
+    log.write("\nEPOCH   " + str(epoch))
+    log.write("\n---------------\n\n")
+
     # Make sure that we are in train mode
     net.train()
 
     # Interval for reporting to the screen
-    report_interval = 20
+    report_interval = 5
 
     # Loop over batches of training data
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -90,7 +104,7 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
         optim.step()
         if batch_idx % report_interval == 0:
 
-            message_str = 'Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+            message_str = 'Train Epoch: {} [{}/{}]\tLoss: {:.6f}'.format(
             epoch, batch_idx * len(data), len(train_loader.dataset),
             100. * batch_idx / len(train_loader), loss.item())
 
@@ -113,6 +127,13 @@ def train(train_params, spec_params):
     """
     
     print("\n\nTraining ...")
+
+
+    # First check for valid parameter values
+    if train_params["trainedModel"] == "":
+        print("ERROR: Please provide a valid path for the trained model.")
+        return False       
+
 
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
@@ -148,6 +169,10 @@ def train(train_params, spec_params):
     # Make the data loaders
     loader_train = torch.utils.data.DataLoader( ds_train, int(train_params["batchSize"]), shuffle=True)
     loader_test = torch.utils.data.DataLoader( ds_test, int(train_params["batchSize"]), shuffle=True)
+
+    print("\nNumber of training data items: " + str(len(loader_train) * int(train_params["batchSize"]))) 
+    print("Number of testing data items: " + str(len(loader_test) * int(train_params["batchSize"]))) 
+    print("\n")
 
     network = None
     

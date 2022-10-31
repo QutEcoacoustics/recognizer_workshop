@@ -46,7 +46,10 @@ class Spectrogram:
         self.spec = np.flipud(self.spec[1:, :])
 
         # Get only the part of the spectrogram that we need
-        self.spec = self.spec[256-(num_freq_bins*2):256,:]
+        # Different wav sample rates will result in different numbers of freq bins 
+        p1 = int((fft_win_size/2))
+        p2 = int((num_freq_bins*2))       
+        self.spec = self.spec[ p1 - p2: p1,:]        
 
         # log scale the values
         self.spec = np.log1p( self.log_coef * self.spec )

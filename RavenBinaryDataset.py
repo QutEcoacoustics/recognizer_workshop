@@ -44,8 +44,6 @@ class RavenBinaryDataset(Dataset):
         self.data = data_frame          
         self.columns = self.data.columns.tolist()
 
-        print("Number of data items: " + str(len(self.data))) 
-
         # Get labels - should only be two labels - "pos" and "neg"
         labels = list(self.data.label.unique())
         if not len(labels) == 2:            
@@ -70,15 +68,6 @@ class RavenBinaryDataset(Dataset):
 
         self.item_list = []
 
-    '''
-    def log_file(self, log_file_path):
-        self.log_file_path = log_file_path
-        self.log_file = open(log_file_path, 'w') 
-
-
-    def save_images(self, save_image_dir_path):
-        self.save_image_dir_path = save_image_dir_path        
-    '''
 
     def get_item_list(self):
         return self.item_list
@@ -245,7 +234,7 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
     '''
     Parses the given directories for pos and neg data and populates the data items.
 
-    The dataframe is saved as a 
+    The dataframe is saved as a csv
     '''
     if not os.path.exists( wav_path_neg ):
         print("ERROR: Negative data directory is invalid.")
@@ -254,6 +243,10 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
     if not os.path.exists( wav_path_pos ):
         print("ERROR: Positive data directory is invalid.")
         return False    
+
+    if not os.path.exists( spec_image_dir_path ):
+        print("ERROR: Please provide a valid spectrogram image directory path.")
+        return False 
 
     # Get pos and neg data items from filesystem
     data_pos = parse_dataset_directory( wav_path_pos, "pos")
