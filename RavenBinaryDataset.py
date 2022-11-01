@@ -339,7 +339,10 @@ def MakeRavenBinaryDatasetSplit( data_file, data_new_file, rand_seed, test_set_s
     """    
     # Load data file
     df = pd.read_csv( data_file )  
-    columns = df.columns.tolist()
+    #columns = df.columns.tolist()
+
+    # balance dataset
+    df = utils.balance_dataset(df)
    
     # First get pos and neg rows as separate dataframes
     pos = df.loc[df['label'] == "pos"]
@@ -348,8 +351,8 @@ def MakeRavenBinaryDatasetSplit( data_file, data_new_file, rand_seed, test_set_s
     random.seed(rand_seed)
 
     # Duplicate items in dataframe
-    pos = duplicateXTimes(pos, class_repetitions["pos"])
-    neg = duplicateXTimes(neg, class_repetitions["neg"])
+    # pos = duplicateXTimes(pos, class_repetitions["pos"])
+    # neg = duplicateXTimes(neg, class_repetitions["neg"])
     
     # Make a split between training and test with equal number of pos and neg in each
     data_pos_train, data_pos_test = makeSplit(pos, test_set_size)

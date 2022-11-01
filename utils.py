@@ -1,6 +1,8 @@
 
 
 from os import listdir
+import math
+import random
 import configparser
 import pandas as pd
 from typing import List
@@ -272,4 +274,39 @@ def makeSpecFromWav(wav_file_path, spec_image_path, fftWinSize, fftOverlap, maxF
     
     
     
+def balance_dataset(df):
+    '''
+    oversamples from the poorer class so that the number of rows is the same per class
+    '''
+
+    print(f'balancing dataset of {df.shape[0]} rows')
+
+    counts = df['label'].value_counts()
+    target_num = max(counts)
+    new_indexes = []
+    random.seed(4321)
+
+    for label in counts.index:
+
+        cur_label_indexes = list(df.index[df['label'] == label])
+        # the number times to repeat all the examples
+        num_reps = math.floor(target_num / counts[label])
+        # the number of random rows to add so that we get exactly the target number
+        num_remainder = target_num % counts[label]
+        # add these repetitions and randomly selected indexes
+        cur_label_new_indexes = (cur_label_indexes * num_reps) + random.sample(cur_label_indexes, num_remainder)
+        new_indexes = new_indexes + cur_label_new_indexes
+
+        print(f'number of {label} examples went from {counts[label]} to {len(cur_label_new_indexes)}')
+
+    new_df = df.iloc[new_indexes].reset_index(drop=True)
+
+    return(new_df)
+
+
+
+
+
+
+
     

@@ -1,0 +1,43 @@
+label,start,end,wavpath,specpath,test
+pos,0.0,4.054557823129252,./sample_data/whipbird/pos/XC521661 - Eastern Whipbird - Psophodes olivaceus_selection.wav,./training_output/preparation/specs/0024.png,0
+pos,2.283594406,3.781276452,./sample_data/whipbird/pos/sel.02.ch01.221020.200324.11..wav,./training_output/preparation/specs/0025.png,0
+pos,11.282381569,12.246236351,./sample_data/whipbird/pos/sel.02.ch01.221020.200324.11..wav,./training_output/preparation/specs/0025.png,0
+pos,21.579498605,22.602667527,./sample_data/whipbird/pos/sel.02.ch01.221020.200324.11..wav,./training_output/preparation/specs/0025.png,0
+pos,0.779766106,2.352742562,./sample_data/whipbird/pos/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0026.png,0
+pos,19.266715227,20.977888025,./sample_data/whipbird/pos/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0026.png,0
+pos,38.128613194,39.763733868,./sample_data/whipbird/pos/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0026.png,0
+pos,71.920198246,73.441240733,./sample_data/whipbird/pos/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0026.png,0
+pos,9.599698882,11.052565469,./sample_data/whipbird/pos/sel.01.ch01.221020.200159.37..wav,./training_output/preparation/specs/0027.png,0
+pos,3.839749004,5.692762204,./sample_data/whipbird/pos/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0028.png,0
+pos,17.794734295,19.896089471,./sample_data/whipbird/pos/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0028.png,0
+pos,35.054674798,36.964997686,./sample_data/whipbird/pos/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0028.png,0
+pos,45.422846751,46.989311518,./sample_data/whipbird/pos/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0028.png,0
+pos,1.975158916,3.668152272,./sample_data/whipbird/pos/XC593955 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0029.png,0
+pos,11.201972708,12.979615732,./sample_data/whipbird/pos/XC593955 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0029.png,0
+pos,26.495346026,28.27298905,./sample_data/whipbird/pos/XC593955 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0029.png,0
+pos,2.49676058,4.044752139,./sample_data/whipbird/pos/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0030.png,0
+pos,28.748422414,30.378804144,./sample_data/whipbird/pos/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0030.png,0
+pos,43.595074432,45.242936415,./sample_data/whipbird/pos/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0030.png,0
+pos,60.820314515,62.255951849,./sample_data/whipbird/pos/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0030.png,0
+neg,0.0,7.779773242630386,./sample_data/whipbird/neg/sel.02.ch01.221021.195347.14..wav,./training_output/preparation/specs/0031.png,0
+neg,0.0,13.31156462585034,./sample_data/whipbird/neg/sel.04.ch01.221021.195205.54..wav,./training_output/preparation/specs/0032.png,0
+neg,0.0,7.701587301587302,./sample_data/whipbird/neg/sel.03.ch01.221021.195232.55..wav,./training_output/preparation/specs/0033.png,0
+neg,0.0,19.332063492063494,./sample_data/whipbird/neg/sel.01.ch01.221021.195425.55..wav,./training_output/preparation/specs/0034.png,0
+neg,0.0,8.928072562358278,./sample_data/whipbird/neg/1/sel.01.ch01.221021.173140.92..wav,./training_output/preparation/specs/0035.png,0
+neg,0.0,8.928072562358278,./sample_data/whipbird/neg/1/sel.01.ch01.221021.173140.92. - Copy.wav,./training_output/preparation/specs/0036.png,0
+neg,0.0,8.928072562358278,./sample_data/whipbird/neg/1/sel.01.ch01.221021.173140.92. - Copy (2).wav,./training_output/preparation/specs/0037.png,0
+neg,0.0,8.928072562358278,./sample_data/whipbird/neg/1/sel.01.ch01.221021.173140.92. - Copy (3).wav,./training_output/preparation/specs/0038.png,0
+neg,7.813220609,16.10402194,./sample_data/whipbird/neg/1/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0039.png,0
+neg,21.54704454,33.543872272,./sample_data/whipbird/neg/1/XC389281 - Eastern Whipbird - Psophodes olivaceus olivaceus.wav,./training_output/preparation/specs/0039.png,0
+neg,34.42749687,40.430116415,./sample_data/whipbird/neg/1/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0040.png,0
+neg,6.651608637,26.319015031,./sample_data/whipbird/neg/1/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0040.png,0
+neg,51.272258507,59.005044863,./sample_data/whipbird/neg/1/XC201977 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0040.png,0
+neg,3.105620182,17.974953174,./sample_data/whipbird/neg/2/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0041.png,0
+neg,24.404736997,36.464223158,./sample_data/whipbird/neg/2/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0041.png,0
+neg,42.176185713,69.84773608,./sample_data/whipbird/neg/2/XC470608 - Eastern Whipbird - Psophodes olivaceus.wav,./training_output/preparation/specs/0041.png,0
+neg,0.0,59.76,./sample_data/whipbird/neg/2/w4.wav,./training_output/preparation/specs/0042.png,0
+neg,0.0,4.296009070294785,./sample_data/whipbird/neg/2/w1.wav,./training_output/preparation/specs/0043.png,0
+neg,0.0,85.58403628117914,./sample_data/whipbird/neg/2/w3.wav,./training_output/preparation/specs/0044.png,0
+neg,0.0,133.03201814058957,./sample_data/whipbird/neg/2/w2.wav,./training_output/preparation/specs/0045.png,0
+neg,1.009983678,36.034774791,./sample_data/whipbird/neg/2/XC580376 - Australian King Parrot - Alisterus scapularis scapularis.wav,./training_output/preparation/specs/0046.png,0
+neg,0.0,8.011473922902494,./sample_data/whipbird/neg/2/sel.02.ch01.221021.184542.35..wav,./training_output/preparation/specs/0047.png,0
