@@ -5,11 +5,10 @@ __pycache__/
 
 
 # we don't want the outputs to be included
-preparation/*
+training_output/*
+inference_output/*
 
-training/model.pth
-
-data.csv
-data_large.csv
-data_training.csv
-log_train.txt
+# data.csv
+# data_large.csv
+# data_training.csv
+# log_train.txt
