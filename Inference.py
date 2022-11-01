@@ -110,6 +110,9 @@ def infer_wav_file(network, wav_path, infer_params, spec_params):
     detection_count = 0
     maxFileImages = int(infer_params["maxFileImages"])
 
+    if not os.path.exists(infer_params["imageDir"]):
+        os.makedirs(infer_params["imageDir"], exist_ok=True)
+
     # Step along the spectrogram 
     for i in range(0, tot_steps):
 

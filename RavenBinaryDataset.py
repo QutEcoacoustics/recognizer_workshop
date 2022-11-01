@@ -245,8 +245,7 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
         return False    
 
     if not os.path.exists( spec_image_dir_path ):
-        print("ERROR: Please provide a valid spectrogram image directory path.")
-        return False 
+        os.makedirs(spec_image_dir_path, exist_ok=True)
 
     # Get pos and neg data items from filesystem
     data_pos = parse_dataset_directory( wav_path_pos, "pos")
