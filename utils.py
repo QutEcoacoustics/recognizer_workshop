@@ -54,6 +54,11 @@ def read_config(file_name: str, section: str):
     if file_name != None:  
         config = configparser.ConfigParser()
         config.read(file_name)
+
+        if section not in config.sections():
+            print(f'invalid config section provided: "{section}"')
+            return {}        
+
         params = dict(config.items(section))
         params = normalize_map_key_names(params)
         return params
