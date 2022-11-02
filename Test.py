@@ -23,9 +23,9 @@ utils.print_params(infer_params)
 
 
 
-wav_path_pos = "./data/whipbird/pos"
-wav_path_neg = "./data/whipbird/neg"
-spec_image_dir_path = "./preparation/specs/"
+wav_path_pos = "./sample_data/whipbird/pos"
+wav_path_neg = "./sample_data/whipbird/neg"
+spec_image_dir_path = "./training_output/preparation/specs/"
 
 
 
@@ -45,7 +45,7 @@ spec_image_dir_path = "./preparation/specs/"
 #
 #----------------------------
 
-train_params["baseModel"] = "./training/model_synth_base.pth" 
+train_params["baseModel"] = "./models/model_synth_base.pth" 
 
 train_params["epochs"] = 10
 #train_params["testSetSize"] = 4

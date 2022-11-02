@@ -114,6 +114,11 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
             train_losses.append( loss.item() )
             train_counter.append( (batch_idx*32) + ((epoch-1)*len(train_loader.dataset)) )
 
+    # Save the model at the end of each training epoch
+    models_dir = os.path.dirname(trainedModelPath)
+    if not os.path.exists(models_dir):
+        os.makedirs(models_dir, exist_ok=True)
+
     # Save the model at the end of each training epoch    
     torch.save(net.state_dict(), trainedModelPath)
 
