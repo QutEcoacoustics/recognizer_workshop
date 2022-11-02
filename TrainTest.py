@@ -162,7 +162,10 @@ def train(train_params, spec_params):
     test_set_size = 12
     random_seed = 9135
     # Get the train and test datasets
-    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], "data_training.csv", random_seed, test_set_size, spec_params, 
+
+    new_filename = os.path.splitext(train_params["dataCSV"])[0] + "_balanced.csv"
+
+    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, random_seed, test_set_size, spec_params,
         class_repetitions, transform = transform )  
 
     # Make the data loaders
