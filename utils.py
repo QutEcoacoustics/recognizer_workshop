@@ -1,5 +1,3 @@
-
-
 from os import listdir
 import math
 import random
@@ -56,11 +54,6 @@ def read_config(file_name: str, section: str):
     if file_name != None:  
         config = configparser.ConfigParser()
         config.read(file_name)
-
-        if section not in config.sections():
-            print(f'invalid config section provided: "{section}"')
-            return {}
-
         params = dict(config.items(section))
         params = normalize_map_key_names(params)
         return params
@@ -102,12 +95,12 @@ def read_train_params(file_name: str):
         params["epochs"] = int(config["train"]["epochs"])
         params["lr"] = float(config["train"]["lr"])        
         params["batchSize"] = int(config["train"]["batch-size"])
+        params["testSetSize"] = int(config["train"]["test-set-size"]) 
         params["baseModel"] = config["train"]["base-model"]        
         params["trainedModel"] = config["train"]["trained-model"]
-        params["datasetLog"] = config["train"]["dataset-log"] 
         params["log"] = config["train"]["log"]
         params["saveImagePatches"] = config["train"]["save-image-patches"] 
-        
+        params["randomSeed"] = int(config["train"]["random-seed"])         
         return params
     else:
         return {}    
@@ -272,7 +265,7 @@ def makeSpecFromWav(wav_file_path, spec_image_path, fftWinSize, fftOverlap, maxF
     img = spec.get_image()
     img.save( spec_image_path )
     
-    
+     
     
 def balance_dataset(df):
     '''
@@ -302,11 +295,3 @@ def balance_dataset(df):
     new_df = df.iloc[new_indexes].reset_index(drop=True)
 
     return(new_df)
-
-
-
-
-
-
-
-    

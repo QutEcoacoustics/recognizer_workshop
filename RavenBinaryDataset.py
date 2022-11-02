@@ -215,6 +215,7 @@ def parse_dataset_directory(dpath, label):
             if f.endswith(".wav"):
                 wav_path =  os.path.join( root, f)
                 ann_file = utils.matching_annotation_file( root, f )
+                print(wav_path)
 
                 if ann_file == "":
                     length = utils.get_wav_length( wav_path )
@@ -245,7 +246,8 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
         return False    
 
     if not os.path.exists( spec_image_dir_path ):
-        os.makedirs(spec_image_dir_path, exist_ok=True)
+        print("ERROR: Please provide a valid spectrogram image directory path.")
+        return False 
 
     # Get pos and neg data items from filesystem
     data_pos = parse_dataset_directory( wav_path_pos, "pos")
@@ -261,7 +263,7 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
     for index, row in data_all.iterrows():
         wp = row.values[3]
         if wp in spec_for_wav_path:
-            print(wp)
+            #print(wp)
             spec_path = spec_for_wav_path[wp]
             data_all.iloc[index, 4] = spec_path    
         else:
@@ -349,15 +351,26 @@ def MakeRavenBinaryDatasetSplit( data_file, data_new_file, rand_seed, test_set_s
     neg = df.loc[df['label'] == "neg"]
 
     random.seed(rand_seed)
-
-    # Duplicate items in dataframe
-    # pos = duplicateXTimes(pos, class_repetitions["pos"])
-    # neg = duplicateXTimes(neg, class_repetitions["neg"])
     
     # Make a split between training and test with equal number of pos and neg in each
-    data_pos_train, data_pos_test = makeSplit(pos, test_set_size)
-    data_neg_train, data_neg_test = makeSplit(neg, test_set_size)
+    data_pos_train, data_pos_test = makeSplit(pos, test_set_size / 2)
+    data_neg_train, data_neg_test = makeSplit(neg, test_set_size / 2)
 
+    # Check for bad train-test construction
+    if len(data_pos_train.index) == 0:
+         print("ERROR: The number of positive training examples is 0.")
+         return (None, None)   
+    if len(data_neg_train.index) == 0:
+         print("ERROR: The number of negative training examples is 0.")
+         return (None, None)   
+    if len(data_pos_test.index) == 0:
+         print("ERROR: The number of positive test examples is 0.")
+         return (None, None) 
+    if len(data_neg_test.index) == 0:
+         print("ERROR: The number of negative test examples is 0.")
+         return (None, None) 
+
+    # Make train and test dataframes
     data_train = pd.concat([data_pos_train, data_neg_train],  axis = 0, ignore_index=True)
     data_test = pd.concat([data_pos_test, data_neg_test],  axis = 0, ignore_index=True)
 
