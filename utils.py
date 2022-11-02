@@ -1,6 +1,8 @@
 
 
 from os import listdir
+import math
+import random
 import configparser
 import pandas as pd
 from typing import List
@@ -54,11 +56,6 @@ def read_config(file_name: str, section: str):
     if file_name != None:  
         config = configparser.ConfigParser()
         config.read(file_name)
-
-        if section not in config.sections():
-            print(f'invalid config section provided: "{section}"')
-            return {}
-
         params = dict(config.items(section))
         params = normalize_map_key_names(params)
         return params
@@ -100,12 +97,12 @@ def read_train_params(file_name: str):
         params["epochs"] = int(config["train"]["epochs"])
         params["lr"] = float(config["train"]["lr"])        
         params["batchSize"] = int(config["train"]["batch-size"])
+        params["testSetSize"] = int(config["train"]["test-set-size"]) 
         params["baseModel"] = config["train"]["base-model"]        
         params["trainedModel"] = config["train"]["trained-model"]
-        params["datasetLog"] = config["train"]["dataset-log"] 
         params["log"] = config["train"]["log"]
         params["saveImagePatches"] = config["train"]["save-image-patches"] 
-        
+        params["randomSeed"] = int(config["train"]["random-seed"])         
         return params
     else:
         return {}    
@@ -270,6 +267,36 @@ def makeSpecFromWav(wav_file_path, spec_image_path, fftWinSize, fftOverlap, maxF
     img = spec.get_image()
     img.save( spec_image_path )
     
+ 
+def balance_dataset(df):
+    '''
+    oversamples from the poorer class so that the number of rows is the same per class
+    '''
+
+    print(f'balancing dataset of {df.shape[0]} rows')
+
+    counts = df['label'].value_counts()
+    target_num = max(counts)
+    new_indexes = []
     
-    
-    
+    random.seed(4321)
+
+    for label in counts.index:
+
+        cur_label_indexes = list(df.index[df['label'] == label])
+        # the number times to repeat all the examples
+        num_reps = math.floor(target_num / counts[label])
+        # the number of random rows to add so that we get exactly the target number
+        num_remainder = target_num % counts[label]
+        # add these repetitions and randomly selected indexes
+        cur_label_new_indexes = (cur_label_indexes * num_reps) + random.sample(cur_label_indexes, num_remainder)
+        new_indexes = new_indexes + cur_label_new_indexes
+
+        print(f'number of {label} examples went from {counts[label]} to {len(cur_label_new_indexes)}')
+
+    new_df = df.iloc[new_indexes].reset_index(drop=True)
+
+    return(new_df)
+
+
+

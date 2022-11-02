@@ -127,12 +127,15 @@ def train(train_params, spec_params):
     
     print("\n\nTraining ...")
 
-
     # First check for valid parameter values
     if train_params["trainedModel"] == "":
         print("ERROR: Please provide a valid path for the trained model.")
         return False       
 
+    if train_params["testSetSize"] < train_params["batchSize"]:
+        print("ERROR: The test set size is less than the batch size.")
+        print("Change the test set size and/or batch size so that the test set size is equal to or greater than the batch size.") 
+        return
 
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
@@ -150,20 +153,23 @@ def train(train_params, spec_params):
 
     # This map defines the number of times to duplicate data for the train and test sets
     class_repetitions = {}
-    class_repetitions["pos"] = 10
-    class_repetitions["neg"] = 10
+    class_repetitions["pos"] = 1
+    class_repetitions["neg"] = 1
  
     # This is our standard transform
+    # This should become a parameter in future
     transform = transforms.Compose([                   
         transforms.ToTensor(),
         transforms.Normalize([0.3], [0.3])             
     ])
 
-    test_set_size = 12
-    random_seed = 9135
     # Get the train and test datasets
-    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], "data_training.csv", random_seed, test_set_size, spec_params, 
-        class_repetitions, transform = transform )  
+    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], "data_training.csv", train_params["randomSeed"], 
+        train_params["testSetSize"], spec_params, class_repetitions, transform = transform )  
+
+    # Check for badly formed datasets
+    if ds_train == None or ds_test == None:
+        return
 
     # Make the data loaders
     loader_train = torch.utils.data.DataLoader( ds_train, int(train_params["batchSize"]), shuffle=True)
