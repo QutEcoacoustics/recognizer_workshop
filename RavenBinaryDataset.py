@@ -135,7 +135,7 @@ class RavenBinaryDataset(Dataset):
         if len(self.item_list) == len(self):
             self.item_list = []    
 
-        self.item_list.append( (idx, class_idx, pos_in_secs, wav_file_path ) )
+        self.item_list.append( (idx, class_idx, pos_in_secs, wav_file_path, img ) )
         
         '''
         cstr = utils.get_count_str(idx)

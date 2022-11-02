@@ -35,7 +35,7 @@ spec_image_dir_path = "./training_output/preparation/specs/"
 #
 #----------------------------
 
-#RavenBinaryDataset.prepare_data( wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, "./data.csv")
+# RavenBinaryDataset.prepare_data( wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, train_params['dataCSV'])
 
 
 
@@ -45,11 +45,10 @@ spec_image_dir_path = "./training_output/preparation/specs/"
 #
 #----------------------------
 
-train_params["baseModel"] = "./models/model_synth_base.pth" 
+#train_params["baseModel"] = "./models/model_synth_base.pth" 
 
-train_params["epochs"] = 10
+#train_params["epochs"] = 10
 #train_params["testSetSize"] = 4
-
 
 TrainTest.train(train_params, spec_params)
 

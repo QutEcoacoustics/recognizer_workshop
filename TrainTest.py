@@ -71,14 +71,18 @@ def test_network(net, test_loader, log):
     log.write( "\nCORRECT " +  str(correct_count) + "\n\n")
 
     # Write out incorrect results
+    image_list = []
     log.write( "INCORRECT " +  str(len(test_loader.dataset) - correct_count) + "\n\n")
-    for i, item in enumerate(item_list):
-        log_str = ""
+    for i, item in enumerate(item_list):        
         if correct_items[i] == 0:
-            log_str = "INCORRECT"
-            log.write( str(item_list[i]) + "\n")
+            log_message = "" + str(item_list[i][0]) + "  Class: " + str(item_list[i][1]) + "  Time: " + str(item_list[i][2])
+            log_message += ("  " + str(item_list[i][3]) )              
+            log.write( log_message + "\n")
+            image_list.append((item[0], item[4]))
 
-
+    # Save incorrect images
+    utils.makeMosaicFromImages(image_list)
+    
     
 def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
     '''

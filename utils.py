@@ -5,6 +5,8 @@ import configparser
 import pandas as pd
 from typing import List
 import librosa
+from PIL import Image as im
+from PIL import ImageFont, ImageDraw
 
 import Spectrogram
 
@@ -300,3 +302,37 @@ def balance_dataset(df):
     new_df = df.iloc[new_indexes].reset_index(drop=True)
 
     return(new_df)
+
+
+def makeMosaicFromImages(image_list):
+    
+    '''
+    Makes a (3 x n) mosaic image from a list of image patches of size 256 x 128.    
+    '''    
+
+    num_images = len(image_list)
+
+    margin = 30
+    images_vert = int(num_images / 3)
+    h = images_vert * 128 + (images_vert-1) * margin + margin
+    w = 3 * 256 + 2 * margin
+
+    font = ImageFont.truetype('arial.ttf', 16) 
+    new_image = im.new( "L", (w, h))
+    draw = ImageDraw.Draw(new_image) 
+
+    for i in range(0, num_images):
+        y = int(i / 3) * (128 + margin) + margin
+        x = (i % 3) * (256 + margin)
+        new_image.paste(image_list[i][1], (x, y))
+
+        draw.text( (x+120, y-25), str(image_list[i][0]), fill ="white", font = font, align ="left") 
+
+    new_image.save('incorrect.png')
+
+
+
+
+
+
+
