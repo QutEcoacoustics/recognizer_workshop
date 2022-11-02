@@ -105,8 +105,7 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
         if batch_idx % report_interval == 0:
 
             message_str = 'Train Epoch: {} [{}/{}]\tLoss: {:.6f}'.format(
-            epoch, batch_idx * len(data), len(train_loader.dataset),
-            100. * batch_idx / len(train_loader), loss.item())
+            epoch, batch_idx * len(data), len(train_loader.dataset), loss.item())
 
             print(message_str)        
             log.write(message_str+"\n")
@@ -115,11 +114,7 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
             train_losses.append( loss.item() )
             train_counter.append( (batch_idx*32) + ((epoch-1)*len(train_loader.dataset)) )
 
-    # Save the model at the end of each training epoch
-    models_dir = os.path.dirname(trainedModelPath)
-    if not os.path.exists(models_dir):
-        os.makedirs(models_dir, exist_ok=True)
-
+    # Save the model at the end of each training epoch    
     torch.save(net.state_dict(), trainedModelPath)
 
 
@@ -167,10 +162,7 @@ def train(train_params, spec_params):
     test_set_size = 12
     random_seed = 9135
     # Get the train and test datasets
-
-    new_filename = os.path.splitext(train_params["dataCSV"])[0] + "_balanced.csv"
-
-    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, random_seed, test_set_size, spec_params, 
+    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], "data_training.csv", random_seed, test_set_size, spec_params, 
         class_repetitions, transform = transform )  
 
     # Make the data loaders
