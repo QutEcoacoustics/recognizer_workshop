@@ -171,6 +171,9 @@ def do_inference( infer_params, spec_params):
     torch.no_grad()
 
     # Start the log file with parameter values
+    log_dir = os.path.dirname(infer_params["log"])
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir, exist_ok=True)
     log = open( infer_params["log"], 'w')
     log.write( "\n-----------\nParameters\n-----------\n\n" )
     log.write( utils.params_to_string(spec_params) )

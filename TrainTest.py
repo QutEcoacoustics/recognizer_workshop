@@ -105,8 +105,7 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
         if batch_idx % report_interval == 0:
 
             message_str = 'Train Epoch: {} [{}/{}]\tLoss: {:.6f}'.format(
-            epoch, batch_idx * len(data), len(train_loader.dataset),
-            100. * batch_idx / len(train_loader), loss.item())
+            epoch, batch_idx * len(data), len(train_loader.dataset), loss.item())
 
             print(message_str)        
             log.write(message_str+"\n")
@@ -120,6 +119,7 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
     if not os.path.exists(models_dir):
         os.makedirs(models_dir, exist_ok=True)
 
+    # Save the model at the end of each training epoch    
     torch.save(net.state_dict(), trainedModelPath)
 
 
@@ -132,12 +132,15 @@ def train(train_params, spec_params):
     
     print("\n\nTraining ...")
 
-
     # First check for valid parameter values
     if train_params["trainedModel"] == "":
         print("ERROR: Please provide a valid path for the trained model.")
         return False       
 
+    if train_params["testSetSize"] < train_params["batchSize"]:
+        print("ERROR: The test set size is less than the batch size.")
+        print("Change the test set size and/or batch size so that the test set size is equal to or greater than the batch size.") 
+        return
 
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
@@ -155,23 +158,25 @@ def train(train_params, spec_params):
 
     # This map defines the number of times to duplicate data for the train and test sets
     class_repetitions = {}
-    class_repetitions["pos"] = 10
-    class_repetitions["neg"] = 10
+    class_repetitions["pos"] = 1
+    class_repetitions["neg"] = 1
  
     # This is our standard transform
+    # This should become a parameter in future
     transform = transforms.Compose([                   
         transforms.ToTensor(),
         transforms.Normalize([0.3], [0.3])             
     ])
 
-    test_set_size = 12
-    random_seed = 9135
     # Get the train and test datasets
-
     new_filename = os.path.splitext(train_params["dataCSV"])[0] + "_balanced.csv"
 
-    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, random_seed, test_set_size, spec_params, 
-        class_repetitions, transform = transform )  
+    ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, train_params["randomSeed"], 
+        train_params["testSetSize"], spec_params, class_repetitions, transform = transform )
+
+    # Check for badly formed datasets
+    if ds_train == None or ds_test == None:
+        return
 
     # Make the data loaders
     loader_train = torch.utils.data.DataLoader( ds_train, int(train_params["batchSize"]), shuffle=True)
