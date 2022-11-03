@@ -34,8 +34,12 @@ def test_network(net, test_loader, log):
     
     item_count = 0
     correct_items = list(range(0,len(test_loader.dataset)))
+    pred_items = list(range(0,len(test_loader.dataset)))
+
+    targets = []
 
     with torch.no_grad():
+   
         for data, target in test_loader:
             # Probably don't need to shift data to device
             #data, target = data.to(device), target.to(device)
@@ -45,12 +49,21 @@ def test_network(net, test_loader, log):
             
             # Record the number of correct predictions
             corr = pred.eq(target.view_as(pred))
+
+            # Record the predictions 
+            for i, x in enumerate(pred):
+
+                idx = item_count + i
+                pred_items[idx] = x.item()
+
+            # Record the correct items 
             for i, x in enumerate(corr):
                 idx = item_count + i
                 if x:
                     correct_items[idx] = 1
                 else:
                     correct_items[idx] = 0
+
             item_count += len(corr)        
             
             correct_count += pred.eq(target.view_as(pred)).sum().item()
@@ -63,14 +76,20 @@ def test_network(net, test_loader, log):
 
     print(message_str)
 
-    # Log file    
-    log.write("\n" + message_str)
-
     item_list = test_loader.dataset.get_item_list()
+
+    # Write dataset
+    log.write( "\nTEST SET\n")    
+    for i, item in enumerate(item_list):        
+        log_message = str(item_list[i][1]) + ", " + str(pred_items[i]) + ", " + str(item_list[i][4]) + ",  " + str(item_list[i][2]) + ",  " + str(item_list[i][3])
+        log.write( log_message + "\n")
+
+    # Write evaluation message to log file    
+    log.write("\n" + message_str)
 
     log.write( "\nCORRECT " +  str(correct_count) + "\n\n")
 
-    # Write out incorrect results
+    # Write out incorrect results to log file
     image_list = []
     log.write( "INCORRECT " +  str(len(test_loader.dataset) - correct_count) + "\n\n")
     for i, item in enumerate(item_list):        
@@ -99,6 +118,10 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
     # Interval for reporting to the screen
     report_interval = 5
 
+    item_count = 0
+    correct_items = list(range(0,len(train_loader.dataset)))
+    pred_items = list(range(0,len(train_loader.dataset)))
+
     # Loop over batches of training data
     for batch_idx, (data, target) in enumerate(train_loader):
         optim.zero_grad()
@@ -107,6 +130,28 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
         loss = F.nll_loss(output, target)
         loss.backward()
         optim.step()
+
+        pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+        
+        # Record the number of correct predictions
+        corr = pred.eq(target.view_as(pred))
+
+        # Record the predictions 
+        for i, x in enumerate(pred):
+            idx = item_count + i
+            pred_items[idx] = x.item()
+
+        # Record the correct items 
+        for i, x in enumerate(corr):
+            idx = item_count + i
+            if x:
+                correct_items[idx] = 1
+            else:
+                correct_items[idx] = 0
+
+        item_count += len(corr)    
+
+
         if batch_idx % report_interval == 0:
 
             message_str = 'Train Epoch: {} [{}/{}]\tLoss: {:.6f}'.format(
@@ -118,6 +163,15 @@ def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
 
             train_losses.append( loss.item() )
             train_counter.append( (batch_idx*32) + ((epoch-1)*len(train_loader.dataset)) )
+
+
+    # Write dataset
+    item_list = train_loader.dataset.get_item_list()
+    log.write( "\nTRAIN SET\n")    
+    for i, item in enumerate(item_list):        
+        log_message = str(item_list[i][1]) + ", " + str(pred_items[i]) + ", " + str(item_list[i][4]) + ",  " + str(item_list[i][2]) + ", " + str(item_list[i][3])
+        log.write( log_message + "\n")
+
 
     # Save the model at the end of each training epoch
     models_dir = os.path.dirname(trainedModelPath)
@@ -183,7 +237,6 @@ def train(train_params, spec_params):
 
     ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, train_params["randomSeed"], 
         train_params["testSetSize"], spec_params, class_repetitions, transform = transform )
-
 
 
     # Check for badly formed datasets

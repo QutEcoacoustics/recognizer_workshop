@@ -317,7 +317,7 @@ def makeMosaicFromImages(image_list):
     h = images_vert * 128 + (images_vert-1) * margin + margin
     w = 3 * 256 + 2 * margin
 
-    font = ImageFont.truetype('arial.ttf', 16) 
+    font = ImageFont.truetype('ayar.ttf', 16) 
     new_image = im.new( "L", (w, h))
     draw = ImageDraw.Draw(new_image) 
 
