@@ -8,6 +8,7 @@ from datetime import datetime
 import NeuralNets
 import RavenBinaryDataset
 import utils
+from pathlib import Path
 
 
 torch.backends.cudnn.enabled = False
@@ -70,14 +71,18 @@ def test_network(net, test_loader, log):
     log.write( "\nCORRECT " +  str(correct_count) + "\n\n")
 
     # Write out incorrect results
+    image_list = []
     log.write( "INCORRECT " +  str(len(test_loader.dataset) - correct_count) + "\n\n")
-    for i, item in enumerate(item_list):
-        log_str = ""
+    for i, item in enumerate(item_list):        
         if correct_items[i] == 0:
-            log_str = "INCORRECT"
-            log.write( str(item_list[i]) + "\n")
+            log_message = "" + str(item_list[i][0]) + "  Class: " + str(item_list[i][1]) + "  Time: " + str(item_list[i][2])
+            log_message += ("  " + str(item_list[i][3]) )              
+            log.write( log_message + "\n")
+            image_list.append((item[0], item[4]))
 
-
+    # Save incorrect images
+    # utils.makeMosaicFromImages(image_list)
+    
     
 def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
     '''
@@ -138,9 +143,14 @@ def train(train_params, spec_params):
         return False       
 
     if train_params["testSetSize"] < train_params["batchSize"]:
-        print("ERROR: The test set size is less than the batch size.")
+        print("ERROR: The test set size is less than the batch size.\n")
         print("Change the test set size and/or batch size so that the test set size is equal to or greater than the batch size.") 
         return
+
+    # Make sure that the training directory exists. The training directory is the parent directory of the log file.
+    log_path = Path(train_params["log"])
+    if not os.path.exists( log_path.parent.absolute() ):
+        os.makedirs( log_path, exist_ok=True)
 
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
@@ -173,6 +183,8 @@ def train(train_params, spec_params):
 
     ds_train, ds_test = RavenBinaryDataset.MakeRavenBinaryDatasetSplit( train_params["dataCSV"], new_filename, train_params["randomSeed"], 
         train_params["testSetSize"], spec_params, class_repetitions, transform = transform )
+
+
 
     # Check for badly formed datasets
     if ds_train == None or ds_test == None:
