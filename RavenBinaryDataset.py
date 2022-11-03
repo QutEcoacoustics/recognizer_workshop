@@ -245,8 +245,13 @@ def prepare_data(wav_path_pos, wav_path_neg, spec_image_dir_path, spec_params, d
         print("ERROR: Positive data directory is invalid.")
         return False    
 
-    if not os.path.exists( spec_image_dir_path ):
+    if not os.path.exists(spec_image_dir_path):
         os.makedirs(spec_image_dir_path, exist_ok=True)
+
+    data_frame_dir = os.path.dirname(data_frame_file_path)
+    if not os.path.exists(data_frame_dir):
+        os.makedirs(data_frame_dir, exist_ok=True)
+
 
     # Get pos and neg data items from filesystem
     data_pos = parse_dataset_directory( wav_path_pos, "pos")

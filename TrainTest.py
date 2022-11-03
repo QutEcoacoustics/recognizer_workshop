@@ -148,9 +148,9 @@ def train(train_params, spec_params):
         return
 
     # Make sure that the training directory exists. The training directory is the parent directory of the log file.
-    log_path = Path(train_params["log"])
-    if not os.path.exists( log_path.parent.absolute() ):
-        os.makedirs( log_path, exist_ok=True)
+    log_dir = os.path.dirname(train_params["log"])
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir, exist_ok=True)
 
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
