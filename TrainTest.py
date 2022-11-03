@@ -81,7 +81,7 @@ def test_network(net, test_loader, log):
             image_list.append((item[0], item[4]))
 
     # Save incorrect images
-    utils.makeMosaicFromImages(image_list)
+    # utils.makeMosaicFromImages(image_list)
     
     
 def train_network(epoch, net, optim, train_loader, trainedModelPath, log):
