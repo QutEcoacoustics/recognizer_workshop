@@ -27,7 +27,7 @@ def makeMosaicFromImages(image_list):
     h = images_vert * 128 + (images_vert-1) * margin + margin
     w = 3 * 256 + 2 * margin
 
-    font = ImageFont.truetype('ayar.ttf', 16) 
+    font = ImageFont.truetype('notebook_images/ayar.ttf', 16) 
     new_image = im.new( "L", (w, h))
     draw = ImageDraw.Draw(new_image) 
 
@@ -137,8 +137,8 @@ def do_analysis(train_params, spec_params, output_path):
     new_image = im.new( "L", (w, h + 100 + offset_from_top))
     draw = ImageDraw.Draw(new_image) 
 
-    font = ImageFont.truetype('ayar.ttf', 16)
-    font2 = ImageFont.truetype('ayar.ttf', 24)
+    font = ImageFont.truetype('notebook_images/ayar.ttf', 16)
+    font2 = ImageFont.truetype('notebook_images/ayar.ttf', 24)
 
     patch_pixels_width = 256
     time_win = float(spec_params["timeWin"])
