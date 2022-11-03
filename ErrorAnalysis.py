@@ -1,4 +1,6 @@
 
+import os
+
 from PIL import Image as im
 from PIL import ImageFont, ImageDraw
 
@@ -81,7 +83,7 @@ def get_cropped_from_spectrogram_image(img, offset, pixels_per_sec):
 
 
 
-def do_analysis(train_params, spec_params):
+def do_analysis(train_params, spec_params, output_path):
     """
     Reads the training log file and makes a combined image of all the incorrect train and test images
     """
@@ -179,5 +181,8 @@ def do_analysis(train_params, spec_params):
         draw.text( (x+280, y + 50), "Prediction: " + pred, fill ="white", font = font, align ="left")                 
         draw.text( (x+280, y + 75), wpath, fill ="white", font = font, align ="left") 
 
+    output_dir = os.path.dirname(output_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
 
-    new_image.save('images.png')
+    new_image.save(output_path)
