@@ -7,6 +7,7 @@ import NeuralNets
 import RavenBinaryDataset
 import TrainTest
 import Inference
+import ErrorAnalysis
 
 
 print("------------\n Spec params\n--------------")
@@ -50,7 +51,7 @@ spec_image_dir_path = "./training_output/preparation/specs/"
 #train_params["epochs"] = 10
 #train_params["testSetSize"] = 4
 
-TrainTest.train(train_params, spec_params)
+#TrainTest.train(train_params, spec_params)
 
 
 
@@ -60,13 +61,18 @@ TrainTest.train(train_params, spec_params)
 #
 #----------------------------
 
-# infer_params["wavDir"] = "C:\Acoustics\Deployment_1"
+infer_params["wavDir"] = "C:\Acoustics\Deployment_1"
 
-# Inference.do_inference( infer_params, spec_params)
-
-
+#Inference.do_inference( infer_params, spec_params)
 
 
+#---------------------------
+#
+# Do analysis
+#
+#----------------------------
+
+ErrorAnalysis.do_analysis(train_params, spec_params)
 
 
 

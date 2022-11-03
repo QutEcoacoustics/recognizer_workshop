@@ -96,6 +96,7 @@ class RavenBinaryDataset(Dataset):
         pos = 0
         left = 0.0
         right = 0.0
+        rand_offset = 0
         
         # There are 2 cases
         # 1) short annotation -> sample around the box
@@ -116,38 +117,42 @@ class RavenBinaryDataset(Dataset):
                 right = float(img.width) / self.pix_per_sec
 
             rand_offset_range = int((right - left - self.time_win) * self.pix_per_sec)
+            rand_offset = random.randint( 0, rand_offset_range )
+            
             left_pixel_pos = int(left * self.pix_per_sec)
-            pos = left_pixel_pos + random.randint( 0, rand_offset_range )
+            pos = left_pixel_pos + rand_offset
 
         # Case 2 - Sample within the box        
         else:
             left = start
             right = end
             rand_offset_range = int((interval - self.time_win) * self.pix_per_sec)
+            rand_offset = random.randint( 0, rand_offset_range )
             left_pixel_pos = int(start * self.pix_per_sec)
-            pos = left_pixel_pos + random.randint( 0, rand_offset_range )
-
+            pos = left_pixel_pos + rand_offset
+      
         img = img.crop((pos, 0, pos + self.patch_pixels_width, self.patch_pixels_height))  
 
-        pos_in_secs = str(float(pos)/self.patch_pixels_width)
+        pos_in_secs = float(pos)/self.pix_per_sec
 
         # Check if we have already filled the list
         if len(self.item_list) == len(self):
             self.item_list = []    
 
-        self.item_list.append( (idx, class_idx, pos_in_secs, wav_file_path, img ) )
+        self.item_list.append( (idx, class_idx, pos_in_secs, wav_file_path, spec_image_file_path ) )
         
         '''
+        # This is for checking that the dataset image patches match the labels
         cstr = utils.get_count_str(idx)
         if class_idx==0:
             img.save("./trainPatches/0/p_"+cstr+".png")
         
         if class_idx==1:
             img.save("./trainPatches/1/p_"+cstr+".png")
-            
+        '''    
         #print(img.width, img.height)
-        self.log_file.write(cstr+"   " + row[3]+ "   "+str(left)+"   "+str(right)+"   "+str(float(pos)/self.patch_pixels_width*self.time_win)+"\n") 
-        '''
+        #self.log_file.write(cstr+"   " + row[3]+ "   "+str(left)+"   "+str(right)+"   "+str(float(pos)/self.patch_pixels_width*self.time_win)+"\n") 
+        
 
         #self.log_file.write(str(idx) + "  :  " + str(class_idx) + "\n")
 
