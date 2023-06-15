@@ -13,3 +13,6 @@ test.png
 
 # the unlabelled sample data files are too big
 sample_data/*/unlabelled/*
+
+
+.Rhistory
