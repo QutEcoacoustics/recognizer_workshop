@@ -28,6 +28,8 @@
                      "config_pw.ini",
                      "--specs",
                      "./training_output/preparation/pw/005/specs"
+                     "--wav-dir",
+                    "/Users/eichinsp/Library/CloudStorage/OneDrive-QueenslandUniversityofTechnology/plains_wanderer/audio/labelled/sorted",
                  ]
         },
     ]

@@ -155,7 +155,7 @@ def infer_wav_file(network, wav_path, infer_params, spec_params):
 
 
 
-def do_inference( infer_params, spec_params):
+def do_inference( infer_params, spec_params, wav_dir):
 
     """
     Loop over wav files in the given directory and do inference
@@ -189,7 +189,7 @@ def do_inference( infer_params, spec_params):
     log.write( "\nTime:  " + now.strftime("%H:%M:%S") + "\n\n")
 
     # Loop over files in directories
-    for root, d_names, f_names in os.walk( infer_params["wavDir"] ):
+    for root, d_names, f_names in os.walk(wav_dir):
         for f in f_names:
             if f.endswith(".wav") or f.endswith(".WAV"):
                 f_path = os.path.join(root, f)
