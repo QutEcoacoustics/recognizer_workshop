@@ -18,3 +18,6 @@ sample_data/*/unlabelled/*
 .Rhistory
 
 .vscode/launch.json
+
+# inference audio files are too big. The tutorial instructs to download them, and uses this path in the example code
+inference_audio/*

@@ -81,9 +81,7 @@ def read_infer_params(file_name: str):
         params = {}       
         params["hop"] = float(config[section]["hop"])
         params["model"] = config[section]["model"]
-        params["speciesName"] = config[section]["species-name"]        
-        params["wavFile"] = config[section]["wav-file"]
-        params["wavDir"] = config[section]["wav-dir"]        
+        params["speciesName"] = config[section]["species-name"]          
         params["recursive"] = config[section]["recursive"]
         params["imageDir"] = config[section]["image-dir"] 
         params["outputDir"] = config[section]["output-dir"]
