@@ -11,6 +11,7 @@ import librosa
 # Our includes
 import utils
 from utils import Annot
+import config
 import NeuralNets
 import Spectrogram
 
@@ -178,9 +179,9 @@ def do_inference( infer_params, spec_params, wav_dir):
 
     log = open( infer_params["log"], 'w')
     log.write( "\n-----------\nParameters\n-----------\n\n" )
-    log.write( utils.params_to_string(spec_params) )
+    log.write( config.params_to_string(spec_params) )
     log.write( "\n\n" )
-    log.write( utils.params_to_string(infer_params) )
+    log.write( config.params_to_string(infer_params) )
     log.write( "\n\n" )    
     log.write( "\n-----------\nProcessing\n-----------\n" )
 

@@ -8,6 +8,7 @@ from datetime import datetime
 import NeuralNets
 import RavenBinaryDataset
 import utils
+import config
 from pathlib import Path
 
 
@@ -209,9 +210,9 @@ def train(train_params, spec_params):
     # Start the log file with parameter values
     log = open( train_params["log"], 'w')
     log.write( "\n-----------\nParameters\n-----------\n\n" )
-    log.write( utils.params_to_string(spec_params) )
+    log.write( config.params_to_string(spec_params) )
     log.write( "\n\n" )
-    log.write( utils.params_to_string(train_params) )
+    log.write( config.params_to_string(train_params) )
     log.write( "\n\n" )    
     log.write( "\n-----------\nTraining\n-----------\n" )
 
